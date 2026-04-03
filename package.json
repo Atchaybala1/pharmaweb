@@ -1,0 +1,15 @@
+{
+  "name": "pharmachem-portal",
+  "version": "1.0.0",
+  "description": "PharmaChem Academic Notes Portal — Paavai College of Pharmacy and Research",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
