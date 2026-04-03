@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaChem — Paavai College of Pharmacy and Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ─────────────────────────────────────────── */
+    :root {
+      --navy:      #0a1628;
+      --navy-mid:  #112240;
+      --navy-light:#1a3a6b;
+      --teal:      #0e7c7b;
+      --teal-light:#14a5a4;
+      --gold:      #c9a84c;
+      --gold-light:#e4c675;
+      --cream:     #f5f0e8;
+      --cream-mid: #ede5d5;
+      --white:     #ffffff;
+      --text-dark: #0a1628;
+      --text-mid:  #344563;
+      --text-light:#6b7a99;
+      --border:    rgba(10, 22, 40, 0.12);
+      --shadow-sm: 0 2px 8px rgba(10,22,40,0.08);
+      --shadow-md: 0 8px 32px rgba(10,22,40,0.12);
+      --shadow-lg: 0 24px 64px rgba(10,22,40,0.18);
+      --radius:    12px;
+      --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ────────────────────────────────────────────── */
+    header {
+      background: var(--navy);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 4px 24px rgba(10,22,40,0.35);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-height: 72px;
+    }
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(14,124,123,0.4);
+    }
+    .logo-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+    .logo-text h1 span { color: var(--gold); }
+    .logo-text p {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+    .header-badge {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+    }
+
+    /* ── Hero ──────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 55%, #0d2444 100%);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%; left: -20%;
+      width: 60%; height: 200%;
+      background: radial-gradient(ellipse, rgba(14,124,123,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%; right: -10%;
+      width: 50%; height: 150%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal-light);
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: var(--teal-light);
+      opacity: 0.6;
+    }
+    .hero h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      max-width: 700px;
+      margin-left: auto; margin-right: auto;
+    }
+    .hero h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.62);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+    }
+
+    /* ── Filters ───────────────────────────────────────────── */
+    .filters-section {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 72px;
+      z-index: 90;
+      box-shadow: var(--shadow-sm);
+    }
+    .filters-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+    .filter-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .pill {
+      padding: 0.38rem 0.95rem;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--cream);
+      color: var(--text-mid);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .pill:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      background: rgba(14,124,123,0.06);
+    }
+    .pill.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 0.38rem 1rem;
+      transition: var(--transition);
+    }
+    .search-box:focus-within {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(14,124,123,0.12);
+    }
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      width: 180px;
+    }
+    .search-box input::placeholder { color: var(--text-light); }
+    .search-icon { font-size: 0.9rem; opacity: 0.5; }
+
+    /* ── Main content ──────────────────────────────────────── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+    }
+
+    /* ── Section header ────────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      gap: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .section-title span {
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-left: 0.5rem;
+    }
+    .view-toggle {
+      display: flex;
+      gap: 0.3rem;
+      background: var(--cream-mid);
+      padding: 0.25rem;
+      border-radius: 8px;
+    }
+    .view-btn {
+      width: 32px; height: 32px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+    .view-btn.active {
+      background: var(--white);
+      color: var(--navy);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ── Subject grouping ──────────────────────────────────── */
+    .subject-group {
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .subject-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .subject-heading h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .subcode-badge {
+      background: var(--navy);
+      color: var(--gold);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 5px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Notes grid ────────────────────────────────────────── */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .notes-list .note-card {
+      border-radius: var(--radius);
+    }
+    .notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .notes-list .note-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 1.5rem;
+    }
+    .notes-list .note-card .card-icon { flex-shrink: 0; }
+    .notes-list .note-card .card-body { flex: 1; }
+    .notes-list .note-card .card-actions { flex-shrink: 0; }
+    .notes-list .note-card .card-meta { flex-wrap: nowrap; }
+
+    /* ── Note card ─────────────────────────────────────────── */
+    .note-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      padding: 1.4rem;
+      transition: var(--transition);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .note-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(to bottom, var(--teal), var(--teal-light));
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .note-card:hover {
+      border-color: rgba(14,124,123,0.35);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .note-card:hover::before { opacity: 1; }
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(14,124,123,0.12), rgba(14,124,123,0.06));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      flex-shrink: 0;
+    }
+    .card-body { flex: 1; }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .tag-cat {
+      background: rgba(201,168,76,0.15);
+      color: #8a6c20;
+      border: 1px solid rgba(201,168,76,0.35);
+    }
+    .tag-date {
+      background: var(--cream);
+      color: var(--text-light);
+    }
+    .card-actions { }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+      box-shadow: 0 3px 10px rgba(14,124,123,0.3);
+    }
+    .btn-download:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(14,124,123,0.4);
+      background: linear-gradient(135deg, #0d8f8e, #17bfbe);
+    }
+    .btn-download svg {
+      width: 14px; height: 14px;
+    }
+
+    /* ── Category filter bar ───────────────────────────────── */
+    .cat-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+    .cat-row-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-weight: 500;
+      margin-right: 0.25rem;
+    }
+    .cat-pill {
+      padding: 0.28rem 0.75rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-mid);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cat-pill:hover { border-color: var(--teal); color: var(--teal); }
+    .cat-pill.active { background: var(--teal); border-color: var(--teal); color: var(--white); }
+
+    /* ── Empty / Loading states ────────────────────────────── */
+    .state-box {
+      text-align: center;
+      padding: 5rem 2rem;
+    }
+    .state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+    .state-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--text-mid);
+      margin-bottom: 0.5rem;
+    }
+    .state-sub { color: var(--text-light); font-size: 0.9rem; }
+
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--cream-mid);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      line-height: 1.8;
+    }
+    footer strong { color: rgba(255,255,255,0.75); }
+
+    /* ── Responsive ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero { padding: 3.5rem 1.5rem 3rem; }
+      .filters-inner { padding: 0.9rem 1rem; }
+      main { padding: 2rem 1rem 3rem; }
+      .header-badge { display: none; }
+      .hero-stats { gap: 2rem; }
+      .notes-grid { grid-template-columns: 1fr; }
+      .search-box input { width: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────── HEADER ─────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo-block">
+      <div class="logo-icon">🧪</div>
+      <div class="logo-text">
+        <h1>Pharma<span>Chem</span></h1>
+        <p>Paavai College of Pharmacy and Research</p>
+      </div>
+    </div>
+    <div class="header-badge">Study Portal</div>
+  </div>
+</header>
+
+<!-- ─────────────────── HERO ───────────────────────────────── -->
+<section class="hero">
+  <div class="hero-eyebrow">Academic Resources</div>
+  <h2>Your <em>Notes &amp; Study</em><br>Materials Hub</h2>
+  <p>Access lecture notes, practicals, and study resources curated by your professors — all in one place.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" id="stat-notes">—</div>
+      <div class="stat-label">Notes Available</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-subjects">—</div>
+      <div class="stat-label">Subjects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-cats">—</div>
+      <div class="stat-label">Categories</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FILTERS ────────────────────────────── -->
+<div class="filters-section">
+  <div class="filters-inner">
+    <span class="filter-label">Subject</span>
+    <div class="filter-pills" id="subject-pills">
+      <button class="pill active" data-subject="">All Subjects</button>
+    </div>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search notes…" autocomplete="off" />
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── MAIN ────────────────────────────────── -->
+<main>
+  <div class="section-header">
+    <div class="section-title">Browse Notes <span id="result-count"></span></div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="grid-btn" title="Grid view">⊞</button>
+      <button class="view-btn" id="list-btn" title="List view">☰</button>
+    </div>
+  </div>
+
+  <div id="content-area">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <div class="state-title">Loading notes…</div>
+    </div>
+  </div>
+</main>
+
+<!-- ─────────────────── FOOTER ─────────────────────────────── -->
+<footer>
+  <strong>PharmaChem — Paavai College of Pharmacy and Research</strong><br>
+  Academic Notes Portal &nbsp;·&nbsp; For Students, By Faculty<br>
+  <a href="/admin.html" style="color:rgba(255,255,255,0.25);text-decoration:none;font-size:0.72rem;">Admin →</a>
+</footer>
+
+<script>
+/* ── State ──────────────────────────────────────────────── */
+let allNotes     = [];
+let allSubjects  = [];
+let allCategories = [];
+let activeSubject  = "";
+let activeCategory = "";
+let searchQuery    = "";
+let viewMode       = "grid";
+
+/* ── API helpers ────────────────────────────────────────── */
+async function api(path) {
+  const r = await fetch(path);
+  return r.json();
+}
+
+/* ── Boot ────────────────────────────────────────────────── */
+async function init() {
+  const [notes, subjects, cats] = await Promise.all([
+    api("/api/notes"),
+    api("/api/subjects"),
+    api("/api/categories"),
+  ]);
+  allNotes      = notes.data      || [];
+  allSubjects   = subjects.data   || [];
+  allCategories = cats.data       || [];
+
+  // Stats
+  document.getElementById("stat-notes").textContent    = allNotes.length;
+  document.getElementById("stat-subjects").textContent = allSubjects.length;
+  document.getElementById("stat-cats").textContent     = allCategories.length;
+
+  buildSubjectPills();
+  render();
+}
+
+/* ── Subject pills ──────────────────────────────────────── */
+function buildSubjectPills() {
+  const container = document.getElementById("subject-pills");
+  container.innerHTML = `<button class="pill active" data-subject="">All Subjects</button>`;
+  allSubjects.forEach(s => {
+    const btn = document.createElement("button");
+    btn.className = "pill";
+    btn.dataset.subject = s.subject_name;
+    btn.textContent = s.subject_name + (s.subject_code ? ` (${s.subject_code})` : "");
+    container.appendChild(btn);
+  });
+  container.addEventListener("click", e => {
+    const pill = e.target.closest(".pill");
+    if (!pill) return;
+    container.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+    pill.classList.add("active");
+    activeSubject  = pill.dataset.subject;
+    activeCategory = "";
+    render();
+  });
+}
+
+/* ── Filter notes ───────────────────────────────────────── */
+function filteredNotes() {
+  return allNotes.filter(n => {
+    if (activeSubject  && n.subject_name !== activeSubject)  return false;
+    if (activeCategory && n.category !== activeCategory)     return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return (
+        n.title.toLowerCase().includes(q) ||
+        n.subject_name.toLowerCase().includes(q) ||
+        n.category.toLowerCase().includes(q) ||
+        (n.subject_code || "").toLowerCase().includes(q)
+      );
+    }
+    return true;
+  });
+}
+
+/* ── Render ─────────────────────────────────────────────── */
+function render() {
+  const notes = filteredNotes();
+  const area  = document.getElementById("content-area");
+  document.getElementById("result-count").textContent =
+    notes.length ? `(${notes.length})` : "";
+
+  if (!notes.length) {
+    area.innerHTML = `
+      <div class="state-box">
+        <div class="state-icon">📭</div>
+        <div class="state-title">No notes found</div>
+        <div class="state-sub">Try changing your filters or search term.</div>
+      </div>`;
+    return;
+  }
+
+  // Group by subject
+  const groups = {};
+  notes.forEach(n => {
+    if (!groups[n.subject_name]) groups[n.subject_name] = { code: n.subject_code, notes: [] };
+    groups[n.subject_name].notes.push(n);
+  });
+
+  // Categories in current view
+  const catsInView = [...new Set(notes.map(n => n.category))].sort();
+
+  let html = "";
+
+  // Category quick-filter
+  if (catsInView.length > 1) {
+    html += `<div class="cat-row">
+      <span class="cat-row-label">Category:</span>
+      <button class="cat-pill ${!activeCategory ? 'active' : ''}" data-cat="">All</button>
+      ${catsInView.map(c => `<button class="cat-pill ${activeCategory===c?'active':''}" data-cat="${c}">${c}</button>`).join("")}
+    </div>`;
+  }
+
+  Object.entries(groups).forEach(([subj, { code, notes: ns }], gi) => {
+    const gridClass = viewMode === "grid" ? "notes-grid" : "notes-list";
+    html += `
+    <div class="subject-group" style="animation-delay:${gi * 0.06}s">
+      <div class="subject-heading">
+        <h3>${subj}</h3>
+        ${code ? `<span class="subcode-badge">${code}</span>` : ""}
+      </div>
+      <div class="${gridClass}">
+        ${ns.map(noteCard).join("")}
+      </div>
+    </div>`;
+  });
+
+  area.innerHTML = html;
+
+  // Category pill listeners
+  area.querySelectorAll(".cat-pill").forEach(p => {
+    p.addEventListener("click", () => {
+      activeCategory = p.dataset.cat;
+      render();
+    });
+  });
+}
+
+/* ── Note card HTML ─────────────────────────────────────── */
+function noteCard(n) {
+  const icon = categoryIcon(n.category);
+  const date = new Date(n.created_at).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"2-digit" });
+  return `
+  <div class="note-card">
+    <div class="card-icon">${icon}</div>
+    <div class="card-body">
+      <div class="card-title">${esc(n.title)}</div>
+      <div class="card-meta">
+        <span class="tag tag-cat">${esc(n.category)}</span>
+        <span class="tag tag-date">${date}</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <a class="btn-download" href="${esc(n.link)}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v8.586L5.707 7.293 4.293 8.707 8 12.414l3.707-3.707-1.414-1.414L8 9.586V1H8zM2 14h12v-2H2v2z"/></svg>
+        Open
+      </a>
+    </div>
+  </div>`;
+}
+
+function categoryIcon(cat) {
+  const c = (cat || "").toLowerCase();
+  if (c.includes("lecture") || c.includes("note"))   return "📖";
+  if (c.includes("practical") || c.includes("lab"))  return "🔬";
+  if (c.includes("question") || c.includes("qp"))    return "📝";
+  if (c.includes("reference") || c.includes("book")) return "📚";
+  if (c.includes("slide") || c.includes("ppt"))      return "🖥️";
+  if (c.includes("video"))                            return "🎬";
+  if (c.includes("assignment"))                       return "✏️";
+  return "📄";
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+/* ── View toggle ────────────────────────────────────────── */
+document.getElementById("grid-btn").addEventListener("click", () => {
+  viewMode = "grid";
+  document.getElementById("grid-btn").classList.add("active");
+  document.getElementById("list-btn").classList.remove("active");
+  render();
+});
+document.getElementById("list-btn").addEventListener("click", () => {
+  viewMode = "list";
+  document.getElementById("list-btn").classList.add("active");
+  document.getElementById("grid-btn").classList.remove("active");
+  render();
+});
+
+/* ── Search ─────────────────────────────────────────────── */
+let searchDebounce;
+document.getElementById("search-input").addEventListener("input", e => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    searchQuery = e.target.value.trim();
+    render();
+  }, 250);
+});
+
+init();
+</script>
+</body>
+</html>

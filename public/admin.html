@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — PharmaChem Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:       #0a1628;
+      --navy-mid:   #112240;
+      --navy-light: #1a3a6b;
+      --teal:       #0e7c7b;
+      --teal-light: #14a5a4;
+      --gold:       #c9a84c;
+      --gold-light: #e4c675;
+      --cream:      #f5f0e8;
+      --cream-mid:  #ede5d5;
+      --white:      #ffffff;
+      --red:        #c0392b;
+      --red-light:  #e74c3c;
+      --green:      #219150;
+      --text-dark:  #0a1628;
+      --text-mid:   #344563;
+      --text-light: #6b7a99;
+      --border:     rgba(10, 22, 40, 0.12);
+      --shadow-sm:  0 2px 8px rgba(10,22,40,0.08);
+      --shadow-md:  0 8px 32px rgba(10,22,40,0.12);
+      --shadow-lg:  0 24px 64px rgba(10,22,40,0.18);
+      --radius:     12px;
+      --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN SCREEN ───────────────────────────────────────── */
+    #login-screen {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 60%, #0d2444 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .login-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .login-logo {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      border-radius: 15px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 8px 24px rgba(14,124,123,0.4);
+    }
+    .login-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+    }
+    .login-title span { color: var(--gold); }
+    .login-sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .login-field {
+      position: relative;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .login-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.5rem;
+    }
+    .login-field input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem 0.85rem 3rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--white);
+      outline: none;
+      transition: var(--transition);
+    }
+    .login-field input::placeholder { color: rgba(255,255,255,0.25); }
+    .login-field input:focus {
+      border-color: var(--teal-light);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(14,124,123,0.2);
+    }
+    .login-field .field-icon {
+      position: absolute;
+      left: 1rem;
+      bottom: 0.85rem;
+      font-size: 1rem;
+      opacity: 0.4;
+    }
+    .login-error {
+      background: rgba(192,57,43,0.2);
+      border: 1px solid rgba(231,76,60,0.4);
+      color: #f1948a;
+      font-size: 0.83rem;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .login-error.show { display: block; }
+    .btn-login {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(14,124,123,0.4);
+      letter-spacing: 0.02em;
+    }
+    .btn-login:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(14,124,123,0.5);
+    }
+    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ── ADMIN APP ──────────────────────────────────────────── */
+    #admin-app { display: none; }
+
+    header {
+      background: var(--navy);
+      box-shadow: 0 4px 24px rgba(10,22,40,0.35);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 68px;
+      gap: 1rem;
+    }
+    .logo-block { display: flex; align-items: center; gap: 0.85rem; }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .logo-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .logo-text h1 span { color: var(--gold); }
+    .logo-text p {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .admin-badge {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold-light);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 16px;
+    }
+    .btn-logout {
+      background: rgba(192,57,43,0.15);
+      border: 1px solid rgba(192,57,43,0.3);
+      color: #f1948a;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-logout:hover { background: rgba(192,57,43,0.28); }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .app-layout {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── Upload Panel ────────────────────────────────────────── */
+    .panel {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .panel-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      padding: 1.5rem 1.75rem;
+    }
+    .panel-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .panel-header p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 0.25rem;
+    }
+    .panel-body { padding: 1.75rem; }
+
+    /* ── Form ────────────────────────────────────────────────── */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 0.5rem;
+    }
+    .badge-optional {
+      background: var(--cream-mid);
+      color: var(--text-light);
+      font-size: 0.64rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.7rem 0.95rem;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      background: var(--cream);
+      outline: none;
+      transition: var(--transition);
+    }
+    .form-control:focus {
+      border-color: var(--teal);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(14,124,123,0.1);
+    }
+    .form-control::placeholder { color: var(--text-light); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-hint {
+      font-size: 0.73rem;
+      color: var(--text-light);
+      margin-top: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* ── Category suggestions ────────────────────────────────── */
+    .cat-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+    }
+    .cat-sug {
+      padding: 0.2rem 0.6rem;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      font-size: 0.73rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cat-sug:hover { border-color: var(--teal); color: var(--teal); background: rgba(14,124,123,0.06); }
+
+    /* ── Submit button ───────────────────────────────────────── */
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(14,124,123,0.35);
+      margin-top: 0.5rem;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(14,124,123,0.45);
+    }
+    .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    /* ── Toast ───────────────────────────────────────────────── */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      z-index: 9999;
+    }
+    .toast {
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      min-width: 260px;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .toast.success { background: #1a5c36; color: #a7f3c5; border: 1px solid #2d8a56; }
+    .toast.error   { background: #5c1a1a; color: #f3a7a7; border: 1px solid #8a2d2d; }
+
+    /* ── Notes List Panel ────────────────────────────────────── */
+    .notes-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .notes-panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+    }
+    .notes-panel-title span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-left: 0.4rem;
+    }
+    .admin-filter {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    select.admin-select {
+      padding: 0.42rem 0.85rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.83rem;
+      color: var(--text-dark);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    select.admin-select:focus { border-color: var(--teal); }
+
+    /* ── Admin note cards ────────────────────────────────────── */
+    .admin-notes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .admin-note-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      transition: var(--transition);
+      animation: fadeUp 0.3s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .admin-note-card:hover { border-color: rgba(14,124,123,0.3); box-shadow: var(--shadow-sm); }
+    .anc-icon {
+      width: 42px; height: 42px;
+      border-radius: 9px;
+      background: rgba(14,124,123,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+    .anc-body { flex: 1; min-width: 0; }
+    .anc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 0.3rem;
+    }
+    .anc-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .anc-tag {
+      font-size: 0.7rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+    .anc-tag-subj { background: rgba(10,22,40,0.08); color: var(--text-mid); }
+    .anc-tag-code { background: var(--navy); color: var(--gold); font-family: 'DM Mono', monospace; }
+    .anc-tag-cat  { background: rgba(201,168,76,0.14); color: #8a6c20; }
+    .anc-tag-date { color: var(--text-light); }
+    .anc-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+    .btn-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: 7px;
+      font-size: 0.78rem; font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      border: 1.5px solid transparent;
+    }
+    .btn-view {
+      background: rgba(14,124,123,0.08);
+      color: var(--teal);
+      border-color: rgba(14,124,123,0.2);
+    }
+    .btn-view:hover { background: rgba(14,124,123,0.16); }
+    .btn-del {
+      background: rgba(192,57,43,0.08);
+      color: var(--red);
+      border-color: rgba(192,57,43,0.2);
+      border: 1.5px solid rgba(192,57,43,0.2);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-del:hover { background: rgba(192,57,43,0.18); }
+
+    /* ── Empty states ────────────────────────────────────────── */
+    .state-box {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .state-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.45; }
+    .state-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      color: var(--text-mid);
+    }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--cream-mid);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 0.75rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Delete confirm modal ────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,22,40,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+    }
+    .modal-overlay.open .modal { transform: scale(1); }
+    .modal-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .modal h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+    .modal p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 1.5rem; }
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+    .btn-cancel {
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--text-mid);
+      font-size: 0.88rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: var(--transition);
+    }
+    .btn-cancel:hover { background: var(--cream); }
+    .btn-confirm-del {
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--red);
+      color: var(--white);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: var(--transition);
+    }
+    .btn-confirm-del:hover { background: var(--red-light); }
+
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 1rem; }
+      .app-layout { padding: 1.5rem 1rem 3rem; }
+      .anc-actions { flex-direction: column; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ──────────────────── LOGIN ──────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🔒</div>
+    <div class="login-title">Pharma<span>Chem</span></div>
+    <div class="login-sub">Admin Portal · Paavai College of Pharmacy</div>
+    <div class="login-error" id="login-error">Incorrect password. Please try again.</div>
+    <form onsubmit="handleLogin(event)">
+      <div class="login-field">
+        <label>Admin Password</label>
+        <span class="field-icon">🔑</span>
+        <input type="password" id="login-password" placeholder="Enter admin password" autocomplete="current-password" required />
+      </div>
+      <button class="btn-login" type="submit" id="login-btn">Sign In to Admin</button>
+    </form>
+  </div>
+</div>
+
+<!-- ──────────────────── ADMIN APP ──────────────────────────── -->
+<div id="admin-app">
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <div class="logo-icon">🧪</div>
+        <div class="logo-text">
+          <h1>Pharma<span>Chem</span></h1>
+          <p>Paavai College of Pharmacy and Research</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="admin-badge">Admin</span>
+        <button class="btn-logout" onclick="handleLogout()">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Upload Form -->
+    <div class="panel" style="position:sticky;top:88px;">
+      <div class="panel-header">
+        <h2>📤 Upload New Note</h2>
+        <p>Add a file link for students to access</p>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label>Note Title *</label>
+          <input type="text" class="form-control" id="f-title" placeholder="e.g. Unit 1 — Organic Chemistry Notes" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Subject Name *</label>
+            <input type="text" class="form-control" id="f-subject" placeholder="e.g. Pharmaceutical Chemistry" />
+          </div>
+          <div class="form-group">
+            <label>Subject Code <span class="badge-optional">optional</span></label>
+            <input type="text" class="form-control" id="f-subcode" placeholder="e.g. PC301" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Category *</label>
+          <input type="text" class="form-control" id="f-category" placeholder="e.g. Lecture Notes" />
+          <div class="cat-suggestions" id="cat-suggestions">
+            <span style="font-size:0.72rem;color:var(--text-light);">Quick select:</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>File Link *</label>
+          <input type="url" class="form-control" id="f-link" placeholder="https://drive.google.com/…" />
+          <div class="form-hint">🔗 Google Drive, Dropbox, OneDrive, or any direct URL</div>
+        </div>
+
+        <button class="btn-submit" id="submit-btn" onclick="handleUpload()">
+          <span>📤</span> Upload Note
+        </button>
+      </div>
+    </div>
+
+    <!-- Notes list -->
+    <div>
+      <div class="notes-panel-header">
+        <div class="notes-panel-title">Uploaded Notes <span id="notes-count"></span></div>
+        <div class="admin-filter">
+          <select class="admin-select" id="filter-subject" onchange="filterNotes()">
+            <option value="">All Subjects</option>
+          </select>
+          <select class="admin-select" id="filter-cat" onchange="filterNotes()">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+      </div>
+      <div id="admin-notes-list">
+        <div class="state-box">
+          <div class="spinner"></div>
+          <div class="state-title">Loading…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirm modal -->
+<div class="modal-overlay" id="del-modal">
+  <div class="modal">
+    <div class="modal-icon">🗑️</div>
+    <h3>Delete this note?</h3>
+    <p id="del-modal-name">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn-confirm-del" onclick="confirmDelete()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toasts"></div>
+
+<script>
+/* ── State ──────────────────────────────────────────────── */
+let adminToken     = null;
+let allAdminNotes  = [];
+let pendingDeleteId = null;
+
+const SUGGESTED_CATS = [
+  "Lecture Notes", "Practical", "Question Papers",
+  "Reference Books", "Slides / PPT", "Assignments", "Videos"
+];
+
+/* ── Login ──────────────────────────────────────────────── */
+async function handleLogin(e) {
+  e.preventDefault();
+  const btn  = document.getElementById("login-btn");
+  const pass = document.getElementById("login-password").value.trim();
+  const err  = document.getElementById("login-error");
+
+  btn.disabled = true;
+  btn.textContent = "Verifying…";
+  err.classList.remove("show");
+
+  try {
+    const res  = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: pass }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      adminToken = data.token;
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("admin-app").style.display    = "block";
+      buildCatSuggestions();
+      loadNotes();
+    } else {
+      err.textContent = data.message || "Incorrect password.";
+      err.classList.add("show");
+    }
+  } catch {
+    err.textContent = "Server error. Please try again.";
+    err.classList.add("show");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Sign In to Admin";
+  }
+}
+
+function handleLogout() {
+  adminToken = null;
+  document.getElementById("admin-app").style.display    = "none";
+  document.getElementById("login-screen").style.display = "flex";
+  document.getElementById("login-password").value = "";
+}
+
+/* ── Category suggestions ───────────────────────────────── */
+function buildCatSuggestions() {
+  const container = document.getElementById("cat-suggestions");
+  SUGGESTED_CATS.forEach(c => {
+    const span = document.createElement("span");
+    span.className = "cat-sug";
+    span.textContent = c;
+    span.onclick = () => { document.getElementById("f-category").value = c; };
+    container.appendChild(span);
+  });
+}
+
+/* ── Load notes ─────────────────────────────────────────── */
+async function loadNotes() {
+  try {
+    const res  = await fetch("/api/notes");
+    const data = await res.json();
+    allAdminNotes = data.data || [];
+    allAdminNotes.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    buildFilters();
+    renderAdminNotes();
+  } catch {
+    toast("Failed to load notes.", "error");
+  }
+}
+
+function buildFilters() {
+  const subjSel = document.getElementById("filter-subject");
+  const catSel  = document.getElementById("filter-cat");
+
+  const subjects = [...new Set(allAdminNotes.map(n => n.subject_name))].sort();
+  const cats     = [...new Set(allAdminNotes.map(n => n.category))].sort();
+
+  const curSubj = subjSel.value;
+  const curCat  = catSel.value;
+
+  subjSel.innerHTML = `<option value="">All Subjects</option>` +
+    subjects.map(s => `<option value="${esc(s)}" ${s===curSubj?'selected':''}>${esc(s)}</option>`).join("");
+  catSel.innerHTML  = `<option value="">All Categories</option>` +
+    cats.map(c => `<option value="${esc(c)}" ${c===curCat?'selected':''}>${esc(c)}</option>`).join("");
+}
+
+function filterNotes() { renderAdminNotes(); }
+
+/* ── Render admin notes ─────────────────────────────────── */
+function renderAdminNotes() {
+  const subj = document.getElementById("filter-subject").value;
+  const cat  = document.getElementById("filter-cat").value;
+  let notes = allAdminNotes;
+  if (subj) notes = notes.filter(n => n.subject_name === subj);
+  if (cat)  notes = notes.filter(n => n.category === cat);
+
+  document.getElementById("notes-count").textContent = notes.length ? `(${notes.length})` : "";
+
+  const container = document.getElementById("admin-notes-list");
+  if (!notes.length) {
+    container.innerHTML = `
+      <div class="state-box">
+        <div class="state-icon">📭</div>
+        <div class="state-title">No notes yet</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = `<div class="admin-notes">${notes.map(adminNoteCard).join("")}</div>`;
+}
+
+function adminNoteCard(n) {
+  const icon = catIcon(n.category);
+  const date = new Date(n.created_at).toLocaleDateString("en-IN", {
+    day: "2-digit", month: "short", year: "numeric"
+  });
+  return `
+  <div class="admin-note-card">
+    <div class="anc-icon">${icon}</div>
+    <div class="anc-body">
+      <div class="anc-title" title="${esc(n.title)}">${esc(n.title)}</div>
+      <div class="anc-meta">
+        <span class="anc-tag anc-tag-subj">${esc(n.subject_name)}</span>
+        ${n.subject_code ? `<span class="anc-tag anc-tag-code">${esc(n.subject_code)}</span>` : ""}
+        <span class="anc-tag anc-tag-cat">${esc(n.category)}</span>
+        <span class="anc-tag anc-tag-date">${date}</span>
+      </div>
+    </div>
+    <div class="anc-actions">
+      <a class="btn-link btn-view" href="${esc(n.link)}" target="_blank" rel="noopener">🔗 View</a>
+      <button class="btn-link btn-del" onclick="openDeleteModal('${esc(n.id)}','${esc(n.title).replace(/'/g,"\\'")}')">🗑 Delete</button>
+    </div>
+  </div>`;
+}
+
+function catIcon(cat) {
+  const c = (cat || "").toLowerCase();
+  if (c.includes("lecture") || c.includes("note"))   return "📖";
+  if (c.includes("practical") || c.includes("lab"))  return "🔬";
+  if (c.includes("question") || c.includes("qp"))    return "📝";
+  if (c.includes("reference") || c.includes("book")) return "📚";
+  if (c.includes("slide") || c.includes("ppt"))      return "🖥️";
+  if (c.includes("video"))                            return "🎬";
+  if (c.includes("assignment"))                       return "✏️";
+  return "📄";
+}
+
+/* ── Upload ─────────────────────────────────────────────── */
+async function handleUpload() {
+  const title    = document.getElementById("f-title").value.trim();
+  const subject  = document.getElementById("f-subject").value.trim();
+  const subcode  = document.getElementById("f-subcode").value.trim();
+  const category = document.getElementById("f-category").value.trim();
+  const link     = document.getElementById("f-link").value.trim();
+
+  if (!title || !subject || !category || !link) {
+    toast("Please fill in all required fields (*).", "error");
+    return;
+  }
+
+  const btn = document.getElementById("submit-btn");
+  btn.disabled = true;
+  btn.innerHTML = "<span>⏳</span> Uploading…";
+
+  try {
+    const res = await fetch("/api/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-token": adminToken,
+      },
+      body: JSON.stringify({
+        title, subject_name: subject,
+        subject_code: subcode, category, link
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast(`"${title}" uploaded successfully! ✅`, "success");
+      clearForm();
+      await loadNotes();
+    } else {
+      toast(data.message || "Upload failed.", "error");
+    }
+  } catch {
+    toast("Server error. Please try again.", "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = "<span>📤</span> Upload Note";
+  }
+}
+
+function clearForm() {
+  ["f-title","f-subject","f-subcode","f-category","f-link"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+}
+
+/* ── Delete modal ───────────────────────────────────────── */
+function openDeleteModal(id, title) {
+  pendingDeleteId = id;
+  document.getElementById("del-modal-name").textContent =
+    `"${title}" will be permanently removed.`;
+  document.getElementById("del-modal").classList.add("open");
+}
+function closeDeleteModal() {
+  pendingDeleteId = null;
+  document.getElementById("del-modal").classList.remove("open");
+}
+async function confirmDelete() {
+  if (!pendingDeleteId) return;
+  closeDeleteModal();
+  try {
+    const res = await fetch(`/api/notes/${pendingDeleteId}`, {
+      method: "DELETE",
+      headers: { "x-admin-token": adminToken },
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast("Note deleted.", "success");
+      await loadNotes();
+    } else {
+      toast(data.message || "Delete failed.", "error");
+    }
+  } catch {
+    toast("Server error.", "error");
+  }
+}
+
+// Close modal on overlay click
+document.getElementById("del-modal").addEventListener("click", e => {
+  if (e.target === e.currentTarget) closeDeleteModal();
+});
+
+/* ── Toast ──────────────────────────────────────────────── */
+function toast(msg, type = "success") {
+  const t = document.createElement("div");
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${type === "success" ? "✅" : "❌"}</span> ${msg}`;
+  document.getElementById("toasts").appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+/* ── Helpers ────────────────────────────────────────────── */
+function esc(str) {
+  return String(str)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+</script>
+</body>
+</html>
